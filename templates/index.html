@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Weather Prediction App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="text"] {
+            padding: 10px;
+            width: 80%;
+            max-width: 300px;
+            margin: 10px 0;
+            font-size: 16px;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            background-color: #4682b4;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: left;
+            display: inline-block;
+            max-width: 500px;
+            width: 100%;
+        }
+        table {
+            width: 100%;
+            margin-top: 10px;
+            border-collapse: collapse;
+        }
+        th, td {
+            padding: 8px;
+            border-bottom: 1px solid #ddd;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Weather Prediction App</h1>
+
+    <form method="POST">
+        <input type="text" name="city" placeholder="Enter a capital city" required>
+        <br>
+        <input type="submit" value="Predict Temperature">
+    </form>
+
+    {% if error %}
+        <div class="error">{{ error }}</div>
+    {% endif %}
+
+    {% if predicted_temp %}
+        <div class="result">
+            <h2>Results for {{ city }}</h2>
+            <p><strong>Predicted Temperature:</strong> {{ predicted_temp }} °C</p>
+            {% if actual_temp %}
+                <p><strong>Actual Temperature:</strong> {{ actual_temp }} °C</p>
+                <p><strong>Difference:</strong> {{ temp_difference }} °C</p>
+            {% else %}
+                <p>Could not fetch actual temperature.</p>
+            {% endif %}
+            <h3>Model Details</h3>
+            <p><strong>Algorithm Used:</strong> {{ algorithm }}</p>
+            <table>
+                <tr>
+                    <th>Feature</th>
+                    <th>Coefficient</th>
+                </tr>
+                {% for feature, coefficient in zipped_features %}
+                <tr>
+                    <td>{{ feature }}</td>
+                    <td>{{ coefficient }}</td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    {% endif %}
+
+</body>
+</html>
